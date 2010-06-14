@@ -1,18 +1,43 @@
-= MongoMapper::Plugins::Stripper
+= MongoMapper::Plugins::Sluggable
 
-Tiny plugin for MongoMapper to strip whitespace from strings before validation.
-If the value is blank, it sets it to nil
+Tiny plugin for MongoMapper to cache a slugged version of a field
 
 == Usage
 
 Either load it into all models, or individual models:
-  
-    # add to all models
-    MongoMapper::Document.append_inclusions(MongoMapper::Plugins::Stripper)
 
-    # add to a specific model
-    plugin MongoMapper::Plugins::Stripper
-    
+  # add to all models
+  MongoMapper::Document.append_inclusions(MongoMapper::Plugins::Sluggable)
+
+  # add to a specific model
+  plugin MongoMapper::Plugins::Sluggable
+
+Then call sluggable to configure it
+
+  sluggable :title, :scope => :account_id
+  
+== Options
+
+Available options are:
+
+* :scope - scope to a specific field (default - nil)
+* :key - what the slug key is called (default - :slug)
+* :index - whether to add an index for the slug (default - true)
+* :method - what method to call on the field to sluggify it (default - :parameterize)
+* :callback - when to trigger the slugging (default - :before_validation_on_create)
+
+Eg.
+
+  sluggable :title, :scope => :account_id, :key => :title_slug, :method => :to_url, :index => false
+  
+This will slug the title to the title_slug key, scoped to the account, will use String#to_url to slug it and won't add an index to the key
+
+== Versioning
+
+If an item with the same slug exists, it will add a version number to the slug.
+
+IE assuming we already have an item with the slug of "dave", the slug will be generated as "dave-1"
+
 == Note on Patches/Pull Requests
 
 * Fork the project.
@@ -23,7 +48,7 @@ Either load it into all models, or individual models:
 
 == Install
 
- $ gem install mm-stripper
+ $ gem install mm-sluggable
 
 == Copyright
 

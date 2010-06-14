@@ -20,12 +20,12 @@ task :default => ["spec"]
 spec = Gem::Specification.new do |s|
 
   # Change these as appropriate
-  s.name              = "mm-stripper"
+  s.name              = "mm-sluggable"
   s.version           = "0.1.0"
-  s.summary           = "Tiny plugin for MongoMapper to strip whitespace from strings before validation."
+  s.summary           = "Tiny plugin for MongoMapper to cache a slugged version of a field"
   s.author            = "Richard Livsey"
-  s.email             = "youremail@example.com"
-  s.homepage          = "http://github.com/rlivsey/mm-stripper"
+  s.email             = "richard@livsey.org"
+  s.homepage          = "http://github.com/rlivsey/mm-sluggable"
 
   s.has_rdoc          = true
   s.extra_rdoc_files  = %w(README.rdoc)
@@ -37,7 +37,7 @@ spec = Gem::Specification.new do |s|
 
   # If you want to depend on other gems, add them here, along with any
   # relevant versions
-  s.add_dependency("mongo_mapper")
+  # s.add_dependency("some_other_gem", "~> 0.1.0")
 
   # If your tests use any gems, include them here
   s.add_development_dependency("rspec")

@@ -4,20 +4,24 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'rubygems'
 gem 'rspec'
 
-require 'mm-stripper'
+require 'mm-sluggable'
 require 'spec'
 
-MongoMapper.database = 'mm-stripper-spec'
+MongoMapper.database = 'mm-sluggable-spec'
 
-class Something
-  include MongoMapper::Document
-  
-  plugin MongoMapper::Plugins::Stripper
-  
-  key :title,       String
-  key :created_at,  Time
-  key :body,        String
-  key :thing,       Boolean
+def article_class
+  klass = Class.new do
+    include MongoMapper::Document
+    set_collection_name :articles
+
+    plugin MongoMapper::Plugins::Sluggable
+
+    key :title,       String
+    key :account_id,  Integer
+  end
+
+  klass.collection.remove
+  klass
 end
 
 Spec::Runner.configure do |config|
