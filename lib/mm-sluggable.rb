@@ -9,7 +9,9 @@ module MongoMapper
 
       module ClassMethods
         def sluggable(to_slug = :title, options = {})
-          @slug_options = {
+          class_attribute :slug_options
+
+          self.slug_options = {
             :to_slug      => to_slug,
             :key          => :slug,
             :index        => true,
@@ -18,13 +20,9 @@ module MongoMapper
             :callback     => :before_validation_on_create
           }.merge(options)
 
-          key @slug_options[:key], String, :index => @slug_options[:index]
+          key slug_options[:key], String, :index => slug_options[:index]
 
-          self.send(@slug_options[:callback], :set_slug)
-        end
-
-        class_eval do
-          attr_reader :slug_options
+          self.send(slug_options[:callback], :set_slug)
         end
       end
 
