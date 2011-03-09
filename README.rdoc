@@ -7,7 +7,7 @@ Tiny plugin for MongoMapper to cache a slugged version of a field
 Either load it into all models, or individual models:
 
   # add to all models
-  MongoMapper::Document.append_inclusions(MongoMapper::Plugins::Sluggable)
+  MongoMapper::Document.plugin(MongoMapper::Plugins::Sluggable)
 
   # add to a specific model
   plugin MongoMapper::Plugins::Sluggable
