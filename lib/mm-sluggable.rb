@@ -3,9 +3,7 @@ require 'mongo_mapper'
 module MongoMapper
   module Plugins
     module Sluggable
-      def self.included(model)
-        model.plugin self
-      end
+      extend ActiveSupport::Concern
 
       module ClassMethods
         def sluggable(to_slug = :title, options = {})
@@ -17,12 +15,16 @@ module MongoMapper
             :index        => true,
             :method       => :parameterize,
             :scope        => nil,
-            :callback     => :before_validation_on_create
+            :callback     => [:before_validation, {:on => :create}]
           }.merge(options)
 
           key slug_options[:key], String, :index => slug_options[:index]
 
-          self.send(slug_options[:callback], :set_slug)
+          if slug_options[:callback].is_a?(Array)
+            self.send(slug_options[:callback][0], :set_slug, slug_options[:callback][1])
+          else
+            self.send(slug_options[:callback], :set_slug)
+          end
         end
       end
 
