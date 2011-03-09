@@ -15,7 +15,7 @@ spec = Gem::Specification.new do |s|
 
   # Change these as appropriate
   s.name              = "mm-sluggable"
-  s.version           = "0.1.1"
+  s.version           = "0.2.0"
   s.summary           = "Tiny plugin for MongoMapper to cache a slugged version of a field"
   s.author            = "Richard Livsey"
   s.email             = "richard@livsey.org"
@@ -33,6 +33,8 @@ spec = Gem::Specification.new do |s|
   # relevant versions
   # s.add_dependency("some_other_gem", "~> 0.1.0")
 
+  s.add_dependency("mongo_mapper", ">= 0.9.0")
+
   # If your tests use any gems, include them here
   s.add_development_dependency("rspec")
 end
@@ -42,7 +44,7 @@ end
 # be automatically building a gem for this project. If you're not
 # using GitHub, edit as appropriate.
 #
-# To publish your gem online, install the 'gemcutter' gem; Read more 
+# To publish your gem online, install the 'gemcutter' gem; Read more
 # about that here: http://gemcutter.org/pages/gem_docs
 Rake::GemPackageTask.new(spec) do |pkg|
   pkg.gem_spec = spec
