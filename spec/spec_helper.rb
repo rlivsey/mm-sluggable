@@ -2,10 +2,9 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require 'rubygems'
-gem 'rspec'
+require 'rspec'
 
 require 'mm-sluggable'
-require 'spec'
 
 MongoMapper.database = 'mm-sluggable-spec'
 
@@ -24,5 +23,5 @@ def article_class
   klass
 end
 
-Spec::Runner.configure do |config|
+RSpec.configure do |config|
 end
