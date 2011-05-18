@@ -1,11 +1,11 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe "MongoMapper::Plugins::Sluggable" do
-  
+
   before(:each) do
     @klass = article_class
   end
-  
+
   describe "with defaults" do
     before(:each) do
       @klass.sluggable :title
@@ -27,6 +27,12 @@ describe "MongoMapper::Plugins::Sluggable" do
       lambda{
         @article.valid?
       }.should change(@article, :slug).from(nil).to("testing-123-1")
+    end
+
+    it "should truncate slugs over the max_length default of 256 characters" do
+      @article.title = "a" * 300
+      @article.valid?
+      @article.slug.length.should == 256
     end
   end
 
@@ -97,6 +103,18 @@ describe "MongoMapper::Plugins::Sluggable" do
       lambda{
         @article.save
       }.should change(@article, :slug).from(nil).to("testing-123")
+    end
+  end
+
+  describe "with custom max_length" do
+    before(:each) do
+      @klass.sluggable :title, :max_length => 5
+      @article = @klass.new(:title => "testing 123")
+    end
+
+    it "should truncate slugs over the max length" do
+      @article.valid?
+      @article.slug.length.should == 5
     end
   end
 end
