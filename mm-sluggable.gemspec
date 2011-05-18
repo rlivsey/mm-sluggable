@@ -2,18 +2,18 @@
 
 Gem::Specification.new do |s|
   s.name = %q{mm-sluggable}
-  s.version = "0.2.0"
+  s.version = "0.2.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Richard Livsey"]
-  s.date = %q{2011-03-09}
+  s.date = %q{2011-05-18}
   s.email = %q{richard@livsey.org}
   s.extra_rdoc_files = ["README.rdoc"]
   s.files = ["LICENSE", "Rakefile", "README.rdoc", "spec", "lib/mm-sluggable.rb"]
   s.homepage = %q{http://github.com/rlivsey/mm-sluggable}
   s.rdoc_options = ["--main", "README.rdoc"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.4.1}
+  s.rubygems_version = %q{1.6.2}
   s.summary = %q{Tiny plugin for MongoMapper to cache a slugged version of a field}
 
   if s.respond_to? :specification_version then
