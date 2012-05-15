@@ -28,31 +28,30 @@ module MongoMapper
           end
         end
       end
+      
+      def set_slug
+        options = self.class.slug_options
+        return unless self.send(options[:key]).blank?
 
-      module InstanceMethods
-        def set_slug
-          options = self.class.slug_options
-          return unless self.send(options[:key]).blank?
+        to_slug = self[options[:to_slug]]
+        return if to_slug.blank?
 
-          to_slug = self[options[:to_slug]]
-          return if to_slug.blank?
+        the_slug = raw_slug = to_slug.send(options[:method]).to_s[0...options[:max_length]]
 
-          the_slug = raw_slug = to_slug.send(options[:method]).to_s[0...options[:max_length]]
+        conds = {}
+        conds[options[:key]]   = the_slug
+        conds[options[:scope]] = self.send(options[:scope]) if options[:scope]
 
-          conds = {}
-          conds[options[:key]]   = the_slug
-          conds[options[:scope]] = self.send(options[:scope]) if options[:scope]
-
-          # todo - remove the loop and use regex instead so we can do it in one query
-          i = 0
-          while self.class.first(conds)
-            i += 1
-            conds[options[:key]] = the_slug = "#{raw_slug}-#{i}"
-          end
-
-          self.send(:"#{options[:key]}=", the_slug)
+        # todo - remove the loop and use regex instead so we can do it in one query
+        i = 0
+        while self.class.first(conds)
+          i += 1
+          conds[options[:key]] = the_slug = "#{raw_slug}-#{i}"
         end
+
+        self.send(:"#{options[:key]}=", the_slug)
       end
+      
     end
   end
 end
