@@ -12,14 +12,13 @@ module MongoMapper
           self.slug_options = {
             :to_slug      => to_slug,
             :key          => :slug,
-            :index        => true,
             :method       => :parameterize,
             :scope        => nil,
             :max_length   => 256,
             :callback     => [:before_validation, {:on => :create}]
           }.merge(options)
 
-          key slug_options[:key], String, :index => slug_options[:index]
+          key slug_options[:key], String
 
           if slug_options[:callback].is_a?(Array)
             self.send(slug_options[:callback][0], :set_slug, slug_options[:callback][1])
