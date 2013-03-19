@@ -15,22 +15,22 @@ Either load it into all models, or individual models:
 Then call sluggable to configure it
 
   sluggable :title, :scope => :account_id
-  
+
 == Options
 
 Available options are:
 
 * :scope - scope to a specific field (default - nil)
 * :key - what the slug key is called (default - :slug)
-* :index - whether to add an index for the slug (default - true)
 * :method - what method to call on the field to sluggify it (default - :parameterize)
 * :callback - when to trigger the slugging (default - :before_validation_on_create)
+* :start - what number to start the version numbers (default - 2)
 
 Eg.
 
-  sluggable :title, :scope => :account_id, :key => :title_slug, :method => :to_url, :index => false
-  
-This will slug the title to the title_slug key, scoped to the account, will use String#to_url to slug it and won't add an index to the key
+  sluggable :title, :scope => :account_id, :key => :title_slug, :method => :to_url, :start => 42
+
+This will slug the title to the title_slug key, scoped to the account, will use String#to_url to slug it and start the versions at 42
 
 == Versioning
 
