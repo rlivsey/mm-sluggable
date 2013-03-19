@@ -15,6 +15,7 @@ module MongoMapper
             :method       => :parameterize,
             :scope        => nil,
             :max_length   => 256,
+            :start        => 2,
             :callback     => [:before_validation, {:on => :create}]
           }.merge(options)
 
@@ -27,7 +28,7 @@ module MongoMapper
           end
         end
       end
-      
+
       def set_slug
         options = self.class.slug_options
         return unless self.send(options[:key]).blank?
@@ -42,15 +43,15 @@ module MongoMapper
         conds[options[:scope]] = self.send(options[:scope]) if options[:scope]
 
         # todo - remove the loop and use regex instead so we can do it in one query
-        i = 0
+        i = options[:start]
         while self.class.first(conds)
-          i += 1
           conds[options[:key]] = the_slug = "#{raw_slug}-#{i}"
+          i += 1
         end
 
         self.send(:"#{options[:key]}=", the_slug)
       end
-      
+
     end
   end
 end

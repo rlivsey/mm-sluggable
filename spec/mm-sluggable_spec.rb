@@ -22,11 +22,11 @@ describe "MongoMapper::Plugins::Sluggable" do
       }.should change(@article, :slug).from(nil).to("testing-123")
     end
 
-    it "should add a version number if the slug conflicts" do
+    it "should add a version number starting at 2 if the slug conflicts" do
       @klass.create(:title => "testing 123")
       lambda{
         @article.valid?
-      }.should change(@article, :slug).from(nil).to("testing-123-1")
+      }.should change(@article, :slug).from(nil).to("testing-123-2")
     end
 
     it "should truncate slugs over the max_length default of 256 characters" do
@@ -46,7 +46,7 @@ describe "MongoMapper::Plugins::Sluggable" do
       @klass.create(:title => "testing 123", :account_id => 1)
       lambda{
         @article.valid?
-      }.should change(@article, :slug).from(nil).to("testing-123-1")
+      }.should change(@article, :slug).from(nil).to("testing-123-2")
     end
 
     it "should not add a version number if the slug conflicts in a different scope" do
@@ -115,6 +115,20 @@ describe "MongoMapper::Plugins::Sluggable" do
     it "should truncate slugs over the max length" do
       @article.valid?
       @article.slug.length.should == 5
+    end
+  end
+
+  describe "with custom start" do
+    before(:each) do
+      @klass.sluggable :title, :start => 42
+      @article = @klass.new(:title => "testing 123")
+    end
+
+    it "should start at the supplied version" do
+      @klass.create(:title => "testing 123")
+      lambda{
+        @article.valid?
+      }.should change(@article, :slug).from(nil).to("testing-123-42")
     end
   end
 end
