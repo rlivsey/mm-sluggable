@@ -15,7 +15,7 @@ spec = Gem::Specification.new do |s|
 
   # Change these as appropriate
   s.name              = "mm-sluggable"
-  s.version           = "0.2.1"
+  s.version           = "0.3.0"
   s.summary           = "Tiny plugin for MongoMapper to cache a slugged version of a field"
   s.author            = "Richard Livsey"
   s.email             = "richard@livsey.org"
