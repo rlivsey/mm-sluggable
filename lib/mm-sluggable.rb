@@ -30,7 +30,17 @@ module MongoMapper
       end
 
       def set_slug
-        options = self.class.slug_options
+        klass = self.class
+        while klass.respond_to?(:single_collection_parent)
+          superclass = klass.single_collection_parent
+          if superclass && superclass.respond_to?(:slug_options)
+            klass = superclass
+          else
+            break
+          end
+        end
+
+        options = klass.slug_options
         return unless self.send(options[:key]).blank?
 
         to_slug = self[options[:to_slug]]
@@ -44,7 +54,8 @@ module MongoMapper
 
         # todo - remove the loop and use regex instead so we can do it in one query
         i = options[:start]
-        while self.class.first(conds)
+
+        while klass.first(conds)
           conds[options[:key]] = the_slug = "#{raw_slug}-#{i}"
           i += 1
         end
