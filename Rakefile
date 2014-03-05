@@ -1,10 +1,14 @@
 require "rubygems"
-require "rake/gempackagetask"
-require "rake/rdoctask"
+require "rubygems/package_task"
+require "rdoc/task"
 
-require 'rspec/core/rake_task'
-RSpec::Core::RakeTask.new(:spec)
-task :default => :spec
+require "rspec"
+require "rspec/core/rake_task"
+RSpec::Core::RakeTask.new do |t|
+  t.rspec_opts = %w(--format documentation --colour)
+end
+
+task :default => ["spec"]
 
 # This builds the actual gem. For details of what all these options
 # mean, and other ones you can add, check the documentation here:
@@ -46,7 +50,7 @@ end
 #
 # To publish your gem online, install the 'gemcutter' gem; Read more
 # about that here: http://gemcutter.org/pages/gem_docs
-Rake::GemPackageTask.new(spec) do |pkg|
+Gem::PackageTask.new(spec) do |pkg|
   pkg.gem_spec = spec
 end
 
@@ -56,10 +60,15 @@ task :gemspec do
   File.open(file, "w") {|f| f << spec.to_ruby }
 end
 
+# If you don't want to generate the .gemspec file, just remove this line. Reasons
+# why you might want to generate a gemspec:
+#  - using bundler with a git source
+#  - building the gem without rake (i.e. gem build blah.gemspec)
+#  - maybe others?
 task :package => :gemspec
 
 # Generate documentation
-Rake::RDocTask.new do |rd|
+RDoc::Task.new do |rd|
   rd.main = "README.rdoc"
   rd.rdoc_files.include("README.rdoc", "lib/**/*.rb")
   rd.rdoc_dir = "rdoc"
