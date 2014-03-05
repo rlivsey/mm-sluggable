@@ -1,29 +1,29 @@
 PATH
   remote: .
   specs:
-    mm-sluggable (0.2.1)
+    mm-sluggable (0.3.0)
       mongo_mapper (>= 0.9.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (3.2.13)
-      activesupport (= 3.2.13)
+    activemodel (3.2.17)
+      activesupport (= 3.2.17)
       builder (~> 3.0.0)
-    activesupport (3.2.13)
-      i18n (= 0.6.1)
+    activesupport (3.2.17)
+      i18n (~> 0.6, >= 0.6.4)
       multi_json (~> 1.0)
-    bson (1.8.3)
+    bson (1.9.2)
     builder (3.0.4)
     diff-lcs (1.2.1)
-    i18n (0.6.1)
-    mongo (1.8.3)
-      bson (~> 1.8.3)
+    i18n (0.6.9)
+    mongo (1.9.2)
+      bson (~> 1.9.2)
     mongo_mapper (0.12.0)
       activemodel (~> 3.0)
       activesupport (~> 3.0)
       plucky (~> 0.5.2)
-    multi_json (1.7.1)
+    multi_json (1.8.4)
     plucky (0.5.2)
       mongo (~> 1.5)
     rspec (2.13.0)
